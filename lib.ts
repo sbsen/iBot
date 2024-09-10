@@ -180,7 +180,10 @@ export function replaceVars(input: string, vars: { [vid: string]: string }) {
 
 export function locate(ctx: Page | FrameLocator, input: string): Locator {
   let loc!: Locator
-  if (input.startsWith("!!!")) {
+  if if (input.startsWith("!!!!")) {
+    const parts = input.substring(4).split("|")
+    loc = ctx.getByTitle(parts[0] as any)
+  } else if (input.startsWith("!!!")) {
     const parts = input.substring(3).split("|")
     loc = ctx.getByText(parts[0] as any)
   } else if (input.startsWith("!!")) {

@@ -25,6 +25,13 @@ npx playwright test
 
 Release Notes:
 --------------
+**2.15.0** (10th September 2024, Tuesday)<br>
+One new locators matching codegen - beta.
+1. `!!!!<title>` locator to match codgen getByTitle
+2. `hover` action hover over a locator
+3. `dnd:m` action manually dragdrop element by mouse down->move->up
+4. `mousemove` action mouse move to page.x,page.y
+5. `download` action download file to path
 
 **2.14.0** (3rd April 2023, Monday)<br>
 Three new locators matching codegen - beta. 

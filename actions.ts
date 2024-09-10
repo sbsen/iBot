@@ -124,8 +124,37 @@ export async function runSheet(
           case "exists": await expect(loc).not.toHaveCount(0, tos); break;
           case "exists:not": await expect(loc).toHaveCount(0, tos); break;
           case "keys": await loc.fill(d, tos); break;
-          case 'dnd': await page.dragAndDrop(l, d, tos); break
+          case 'dnd': await page.dragAndDrop(l, d, tos); break;
           //TBD: Is it working?!
+
+          // const dataParts: string[] = d.split(',');
+          // if (dataParts.length == 5) {
+          //   const target = page.locator(dataParts[0]);
+          //   const sx: number = Number.parseInt(dataParts[1]);
+          //   const sy: number = Number.parseInt(dataParts[2]);
+          //   const tx: number = Number.parseInt(dataParts[3]);
+          //   const ty: number = Number.parseInt(dataParts[4]);
+          //   //await loc.dragTo(page.locator(dataParts[0]),{sourcePosition {x:10}, targetP})
+          //   await loc.dragTo(target, {
+          //     sourcePosition: { x: sx, y: sy },
+          //     targetPosition: { x: tx, y: ty },
+          //   });
+          // } else {
+          //   await page.dragAndDrop(l, d, tos); break
+          // }
+
+          case 'dnd:m':
+            await loc.hover();
+            await page.mouse.down();
+            const dst = page.locator(d);
+            const dstBound = await dst.boundingBox();
+            if (dstBound) {
+              await page.mouse.move(dstBound.x, dstBound.y)
+              await page.mouse.up();
+            }
+            break;
+          case "hover": await loc.hover(tos); break;
+          case "mousemove": await page.mouse.move(Number.parseInt(d.split(',')[0]), Number.parseInt(d.split(',')[1])); break;
           case "click": await loc.click(tos); break;
           case "dblclick": await loc.dblclick(tos); break;
           case "click:text":
@@ -160,6 +189,15 @@ export async function runSheet(
             });
             await page.click(l, { force: true });
             break;
+
+          case 'download':
+            // Start waiting for download before clicking. Note no await.
+            const downloadPromise = page.waitForEvent('download');
+            await loc.click();
+            const download = await downloadPromise;
+
+            // Wait for the download process to complete and save the downloaded file somewhere.
+            await download.saveAs(d + download.suggestedFilename());
           //Take a ScreenShot
           case "screenshot": await page.screenshot({ path: d, fullPage: true }); break;
           case "frame":
