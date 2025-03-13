@@ -1,4 +1,5 @@
 import { Workbook } from 'exceljs'
+
 import {
   ACTION_TEMPLATE, COMMENT_TEMPLATE, TRACE,
   LOG_BRIGHT, LOG_RED, LOG_RESET,
@@ -7,6 +8,7 @@ import {
 import * as fs from 'fs';
 import moment from 'moment';
 import { FrameLocator, Locator, Page } from '@playwright/test';
+import { join } from 'path';
 
 export function rexss(text: string) { return new RegExp('.*' + text + '.*') }
 export function nullempty(text: any): string { return text ? text : '' }
@@ -55,6 +57,16 @@ export function parseInts(str: string, wb: Workbook): number[] {
   sheets.sort((a, b) => a - b)
   return sheets
 }
+
+export function syncReadFile(filename: string) {
+  const result = fs.readFileSync(join(__dirname, filename), 'utf-8');
+  return result;
+}
+
+export function syncWriteFile(filename: string, data: string) {
+  fs.writeFileSync(join(__dirname, filename), data, { encoding: "utf8"});
+}
+
 
 function logFile(...msgs: any[]) {
   const msg = msgs.join(' ') + '\n'
@@ -179,13 +191,15 @@ export function replaceVars(input: string, vars: { [vid: string]: string }) {
 }
 
 export function locate(ctx: Page | FrameLocator, input: string): Locator {
+  //console.log(`Input ${input}`);
   let loc!: Locator
-  if if (input.startsWith("!!!!")) {
-    const parts = input.substring(4).split("|")
-    loc = ctx.getByTitle(parts[0] as any)
+  if (input.startsWith("@")) {
+    const code = `ctx.${input.substring(1)};`
+    //console.log("code  "+ code);
+    loc = eval(code)
   } else if (input.startsWith("!!!")) {
     const parts = input.substring(3).split("|")
-    loc = ctx.getByText(parts[0] as any)
+    loc = ctx.getByText(parts[0] as any).first()
   } else if (input.startsWith("!!")) {
     const parts = input.substring(2).split("|")
     loc = ctx.getByPlaceholder(parts[0] as any)
@@ -194,6 +208,7 @@ export function locate(ctx: Page | FrameLocator, input: string): Locator {
     const role = parts[0] as any
     const name = parts[1]
     const exact = parts[2] === 'true'
+    //console.log("role---",parts[0], "name", name, "extact", exact)
     loc = ctx.getByRole(parts[0] as any, { name, exact })
   } else loc = ctx.locator(input)
   // console.log(input, " -- ", loc)

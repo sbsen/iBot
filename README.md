@@ -1,5 +1,5 @@
 **iBot 2.15.0**<br>
-*2024-09-10 Tuesday*<br>
+*2025-12-02 Wednesday*<br>
 
 Prerequisites:
 --------------
@@ -25,13 +25,15 @@ npx playwright test
 
 Release Notes:
 --------------
-**2.15.0** (10th September 2024, Tuesday)<br>
-One new locators matching codegen - beta.
-1. `!!!!<title>` locator to match codgen getByTitle
-2. `hover` action hover over a locator
-3. `dnd:m` action manually dragdrop element by mouse down->move->up
-4. `mousemove` action mouse move to page.x,page.y
-5. `download` action download file to path
+
+**2.16.0** (13th Mar 2025, Wednesday)<br>
+Run the script to generate each test to test case
+Add Begin->End to each test case in the excel Row 1 
+```.\shell\testrun.ps1 -testfile "./sample-tests/sample-tests.xlsx" -sheet "1,2" -report "html"```
+
+**2.15.0** (12th Feb 2025, Wednesday)<br>
+Directly use the code for locators for complex elements
+`getByRole('row', { name: '123  Edit  Delete' }).getByRole('button').nth(1)`
 
 **2.14.0** (3rd April 2023, Monday)<br>
 Three new locators matching codegen - beta. 
