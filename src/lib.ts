@@ -199,7 +199,7 @@ export function locate(ctx: Page | FrameLocator, input: string): Locator {
     loc = eval(code)
   } else if (input.startsWith("!!!")) {
     const parts = input.substring(3).split("|")
-    loc = ctx.getByText(parts[0] as any).first()
+    loc = ctx.getByText(parts[0] as any)
   } else if (input.startsWith("!!")) {
     const parts = input.substring(2).split("|")
     loc = ctx.getByPlaceholder(parts[0] as any)
