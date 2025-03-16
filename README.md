@@ -1,5 +1,5 @@
-**iBot 2.15.0**<br>
-*2025-12-02 Wednesday*<br>
+**iBot 2.16.0**<br>
+*13th Mar 2025, Wednesday*<br>
 
 Prerequisites:
 --------------
