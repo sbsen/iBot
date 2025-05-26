@@ -1,5 +1,5 @@
-**iBot 2.15.0**<br>
-*2025-12-02 Wednesday*<br>
+**iBot 2.16.0**<br>
+*13th Mar 2025, Wednesday*<br>
 
 Prerequisites:
 --------------
@@ -30,6 +30,7 @@ Release Notes:
 Run the script to generate each test to test case
 Add Begin->End to each test case in the excel Row 1 
 ```.\shell\testrun.ps1 -testfile "./sample-tests/sample-tests.xlsx" -sheet "1,2" -report "html"```
+![alt text](samplereport.html.png)
 
 **2.15.0** (12th Feb 2025, Wednesday)<br>
 Directly use the code for locators for complex elements
